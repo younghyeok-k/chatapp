@@ -27,6 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/etid"
         android:hint="id"
+        android:inputType="textEmailAddress"
         />
     <EditText
         android:layout_width="200dp"
@@ -37,6 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/etpassword"
         android:hint="password"
+        android:inputType="textPassword"
         />
     <Button
         android:layout_width="200dp"
