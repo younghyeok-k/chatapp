@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
              //   Toast.makeText(MainActivity.this,"Login",Toast.LENGTH_LONG).show();
                 Intent in=new Intent(MainActivity.this,ChatActivity.class);
                 startActivity(in);
+                //
             }
         });
     }
