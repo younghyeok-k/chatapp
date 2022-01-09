@@ -67,6 +67,7 @@ progressBar.setVisibility(View.VISIBLE);
                                     Log.d(TAG, "stUserEmail: " + stUserEmail + ",stUserName" + stUserName);
                                     // updateUI(user);
                                     Intent in = new Intent(MainActivity.this, ChatActivity.class);
+                                    in.putExtra("email",stUserEmail);
                                     startActivity(in);
                                 } else {
                                     // If sign in fails, display a message to the user.
