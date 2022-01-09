@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                                     // updateUI(user);
                                 } else {
                                     // If sign in fails, display a message to the user.
-                                    Log.w(TAG, "createUserWithl:failure", task.getException());
+                                    Log.w(TAG, "createUserWithl:faile", task.getException());
                                     Toast.makeText(MainActivity.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
                                     //   updateUI(null);
                                 }
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-//
+
     @Override
     public void onStart() {
         super.onStart();
