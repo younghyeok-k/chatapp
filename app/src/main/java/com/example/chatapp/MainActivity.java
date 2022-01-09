@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     EditText etpassword, etId;
     private FirebaseAuth mAuth;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         etId = (EditText) findViewById(R.id.etid);
         etpassword = (EditText) findViewById(R.id.etpassword);
+        progressBar=(ProgressBar)findViewById(R.id.progressBar);
         mAuth = FirebaseAuth.getInstance();
 
         Button btnlogin = (Button) findViewById(R.id.btnLogin);
@@ -48,12 +51,13 @@ public class MainActivity extends AppCompatActivity {
 
                     return;
                 }
-
+progressBar.setVisibility(View.VISIBLE);
 
                 mAuth.signInWithEmailAndPassword(stEmail, stPassword)
                         .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
+
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d(TAG, "signInWithCredential:success");
@@ -70,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.makeText(MainActivity.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
                                     //   updateUI(null);
                                 }
-
+                                progressBar.setVisibility(View.GONE);
                                 // ...
                             }
                         });
@@ -94,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
                     return;
                 }
+                progressBar.setVisibility(View.VISIBLE);
                 //register 할때 아이디 @ 붙여야하고 비밀번호 6자리 이상이여야한다.
                 mAuth.createUserWithEmailAndPassword(stEmail, stPassword)
                         .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
@@ -110,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.makeText(MainActivity.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
                                     //   updateUI(null);
                                 }
-
+                                progressBar.setVisibility(View.GONE);
                                 // ...
                             }
                         });
