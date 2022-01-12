@@ -8,9 +8,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
-    private String[] localDataSet;
+    private ArrayList<Chat> localDataSet;
 
     /**
      * Provide a reference to the type of views that you are using
@@ -37,7 +39,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
      * @param myDataset String[] containing the data to populate views to be used
      *                by RecyclerView.
      */
-    public MyAdapter(String[] myDataset) {
+    public MyAdapter(ArrayList<Chat> myDataset) {
 
         localDataSet = myDataset;
     }
@@ -58,13 +60,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.getTextView().setText(localDataSet[position]);
+        viewHolder.getTextView().setText(localDataSet.get(position).getText());
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return localDataSet.length;
+        return localDataSet.size();
     }
 }
 

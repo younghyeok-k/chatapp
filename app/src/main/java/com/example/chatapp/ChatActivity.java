@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,29 +20,34 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.w3c.dom.Comment;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Hashtable;
 
 public class ChatActivity extends AppCompatActivity {
-    private static final String TAG = "ChatActivity";
     private RecyclerView recyclerView;
-    MyAdapter mAdapter;
+    MyAdapter madapter;
     private RecyclerView.LayoutManager layoutManager;
     EditText etText;
     Button btnSend;
-    String stEmail;
+    String stEamil;
     FirebaseDatabase database;
-    ArrayList<Chat> chatArrayList;
+    private static final String TAG = "ChatActivity";
+    ArrayList<Chat> chatArraylist;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         database = FirebaseDatabase.getInstance();
-
-        chatArrayList = new ArrayList<>();
-        stEmail = getIntent().getStringExtra("email");
+        chatArraylist=new ArrayList<>();
+        stEamil = getIntent().getStringExtra("email");
+        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        btnSend = (Button) findViewById(R.id.btnSend);
+        etText = (EditText) findViewById(R.id.etText);
         Button btnFinish = (Button) findViewById(R.id.btnfinish);
         btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,24 +55,14 @@ public class ChatActivity extends AppCompatActivity {
                 finish();
             }
         });
-        btnSend = (Button)findViewById(R.id.btnSend);
-        etText = (EditText) findViewById(R.id.etText);
 
-        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
         recyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
-        // specify an adapter (see also next example)
-        String[] myDataset = {"test1","test2","test3","test4"};
-       // mAdapter = new MyAdapter(chatArrayList, stEmail);
-        recyclerView.setAdapter(mAdapter);
-
+        String[] myDataset = {"test1", "test2", "test3", "test4"};
+        madapter = new MyAdapter(chatArraylist);
+        recyclerView.setAdapter(madapter);
 
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
@@ -74,14 +70,14 @@ public class ChatActivity extends AppCompatActivity {
                 Log.d(TAG, "onChildAdded:" + dataSnapshot.getKey());
 
                 // A new comment has been added, add it to the displayed list
-                Chat chat = dataSnapshot.getValue(Chat.class);
                 String commentKey = dataSnapshot.getKey();
-                String stEmail = chat.getEmail();
-                String stText = chat.getText();
-                Log.d(TAG, "stEmail: "+stEmail);
-                Log.d(TAG, "stText: "+stText);
-                chatArrayList.add(chat);
-                mAdapter.notifyDataSetChanged();
+                Chat chat = dataSnapshot.getValue(Chat.class);
+                String stEmail=chat.getEmail();
+                String stText=chat.getText();
+                Log.d(TAG,"stEamil:"+stEmail+"stText"+stText);
+               chatArraylist.add(chat);
+               madapter.notifyDataSetChanged();
+                // ...
             }
 
             @Override
@@ -117,6 +113,7 @@ public class ChatActivity extends AppCompatActivity {
                 // ...
             }
 
+            
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w(TAG, "postComments:onCancelled", databaseError.toException());
@@ -124,32 +121,36 @@ public class ChatActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         };
-        DatabaseReference ref = database.getReference("message");
-        ref.addChildEventListener(childEventListener);
+        DatabaseReference databaseReference = database.getReference("message");
+        databaseReference.addChildEventListener(childEventListener);
+
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 String stText = etText.getText().toString();
-                Toast.makeText(ChatActivity.this, "MSG : "+stText,Toast.LENGTH_LONG).show();
+                Toast.makeText(ChatActivity.this, "MSG:" + stText, Toast.LENGTH_LONG).show();
 
 
                 Calendar c = Calendar.getInstance();
-                SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM--dd hh:mm:ss");
-                String datetime = dateformat.format(c.getTime());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String datetime = dateFormat.format(c.getTime());
+                System.out.println(datetime);
 
                 DatabaseReference myRef = database.getReference("message").child(datetime);
 
+
                 Hashtable<String, String> numbers
                         = new Hashtable<String, String>();
-                numbers.put("email", stEmail);
+                numbers.put("email", stEamil);
                 numbers.put("text", stText);
+
 
                 myRef.setValue(numbers);
             }
         });
 
     }
+
+
 }
