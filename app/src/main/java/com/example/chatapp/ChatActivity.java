@@ -61,7 +61,7 @@ public class ChatActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         String[] myDataset = {"test1", "test2", "test3", "test4"};
-        madapter = new MyAdapter(chatArraylist);
+        madapter = new MyAdapter(chatArraylist,stEamil);
         recyclerView.setAdapter(madapter);
 
         ChildEventListener childEventListener = new ChildEventListener() {
