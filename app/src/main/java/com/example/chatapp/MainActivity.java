@@ -66,7 +66,7 @@ progressBar.setVisibility(View.VISIBLE);
                                     String stUserName = user.getDisplayName();
                                     Log.d(TAG, "stUserEmail: " + stUserEmail + ",stUserName" + stUserName);
                                     // updateUI(user);
-                                    Intent in = new Intent(MainActivity.this, ChatActivity.class);
+                                    Intent in = new Intent(MainActivity.this, TapActivity.class);
                                     in.putExtra("email",stUserEmail);
                                     startActivity(in);
                                 } else {
