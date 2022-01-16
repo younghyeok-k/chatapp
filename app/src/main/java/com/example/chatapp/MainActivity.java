@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         etId = (EditText) findViewById(R.id.etid);
         etpassword = (EditText) findViewById(R.id.etpassword);
-        progressBar=(ProgressBar)findViewById(R.id.progressBar);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         mAuth = FirebaseAuth.getInstance();
 
         Button btnlogin = (Button) findViewById(R.id.btnLogin);
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
                     return;
                 }
-progressBar.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
 
                 mAuth.signInWithEmailAndPassword(stEmail, stPassword)
                         .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
@@ -67,7 +67,7 @@ progressBar.setVisibility(View.VISIBLE);
                                     Log.d(TAG, "stUserEmail: " + stUserEmail + ",stUserName" + stUserName);
                                     // updateUI(user);
                                     Intent in = new Intent(MainActivity.this, TapActivity.class);
-                                    in.putExtra("email",stUserEmail);
+                                    in.putExtra("email", stUserEmail);
                                     startActivity(in);
                                 } else {
                                     // If sign in fails, display a message to the user.
