@@ -19,18 +19,22 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Hashtable;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     EditText etpassword, etId;
     private FirebaseAuth mAuth;
     ProgressBar progressBar;
-
+    FirebaseDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        database = FirebaseDatabase.getInstance();
         etId = (EditText) findViewById(R.id.etid);
         etpassword = (EditText) findViewById(R.id.etpassword);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -117,6 +121,16 @@ public class MainActivity extends AppCompatActivity {
                                     Log.d(TAG, "createUserWith:success");
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     // updateUI(user);
+
+                                    DatabaseReference myRef = database.getReference("users").child(user.getUid());
+
+
+                                    Hashtable<String, String> numbers
+                                            = new Hashtable<String, String>();
+                                    numbers.put("email", user.getEmail());
+                                    Toast.makeText(MainActivity.this,"Register Success",Toast.LENGTH_LONG).show();
+
+                                    myRef.setValue(numbers);
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.w(TAG, "createUserWithl:faile", task.getException());
