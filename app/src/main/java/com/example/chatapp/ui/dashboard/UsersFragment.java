@@ -49,7 +49,7 @@ FirebaseDatabase database;
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d(TAG,"onDataChange"+snapshot.getValue().toString());
             }
-
+asdasd
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
